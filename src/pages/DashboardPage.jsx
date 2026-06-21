@@ -6,6 +6,16 @@ import { getReferrals } from '../api/referrals';
 import { formatDate, formatCurrency } from '../utils/formatters';
 import './DashboardPage.css';
 
+const normalizeDashboardData = (response) => {
+  const payload = response?.data ?? response;
+  return {
+    metrics: payload?.metrics ?? [],
+    serviceSummary: payload?.serviceSummary ?? {},
+    referral: payload?.referral ?? {},
+    referrals: payload?.referrals ?? [],
+  };
+};
+
 export default function DashboardPage() {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
@@ -23,7 +33,7 @@ export default function DashboardPage() {
       setLoading(true);
       try {
         const response = await getReferrals({ search, sort });
-        setData(response.data);
+        setData(normalizeDashboardData(response));
         // Reset to page 1 on new search or sort data fetching
         setCurrentPage(1);
       } catch (err) {
@@ -149,7 +159,7 @@ export default function DashboardPage() {
                 />
                 
                 <label className="sort-label">
-                  <span className="visually-hidden">Sort by date</span>
+                  <span>Sort by date</span>
                   <select 
                     value={sort} 
                     onChange={(e) => setSort(e.target.value)}
