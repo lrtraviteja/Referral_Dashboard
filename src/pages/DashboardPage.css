@@ -38,7 +38,11 @@
 .referrals-table-section h2 {
   font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.referrals-table-section {
+  margin-top: 1.5rem;
 }
 
 .metrics-grid {
@@ -120,6 +124,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .share-field label {
@@ -141,6 +146,7 @@
   background-color: var(--background);
   color: var(--text-main);
   font-family: monospace;
+  word-break: break-all;
 }
 
 .copy-group button {
@@ -220,7 +226,13 @@
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  table-layout: fixed;
 }
+
+.referrals-table th:nth-child(1) { width: 35%; }
+.referrals-table th:nth-child(2) { width: 30%; }
+.referrals-table th:nth-child(3) { width: 20%; }
+.referrals-table th:nth-child(4) { width: 15%; }
 
 .referrals-table th {
   padding: 1rem 1.5rem;
@@ -235,6 +247,7 @@
   padding: 1rem 1.5rem;
   border-bottom: 1px solid var(--border);
   color: var(--text-main);
+  word-break: break-word;
 }
 
 .referrals-table tr:last-child td {

@@ -59,32 +59,39 @@ export default function ReferralDetailsPage() {
             <Link to="/" className="back-link">← Back to dashboard</Link>
           </div>
         ) : (
-          <div className="details-container">
+          <div className="details-wrapper">
+            <Link to="/" className="back-link">← Back to dashboard</Link>
             <h1>Referral Details</h1>
-            <h2 className="partner-name">{referral.name}</h2>
+            <p className="details-subtitle">Full information for this referral partner.</p>
             
             <div className="details-card">
+              <div className="card-header">
+                <h2 className="partner-name">{referral.name}</h2>
+                <span className="service-badge">{referral.serviceName}</span>
+              </div>
               <dl className="details-list">
                 <div className="details-row">
-                  <dt>Referral ID</dt>
+                  <dt>REFERRAL ID</dt>
                   <dd>{referral.id}</dd>
                 </div>
                 <div className="details-row">
-                  <dt>Service Name</dt>
+                  <dt>NAME</dt>
+                  <dd>{referral.name}</dd>
+                </div>
+                <div className="details-row">
+                  <dt>SERVICE NAME</dt>
                   <dd>{referral.serviceName}</dd>
                 </div>
                 <div className="details-row">
-                  <dt>Date</dt>
+                  <dt>DATE</dt>
                   <dd>{formatDate(referral.date)}</dd>
                 </div>
                 <div className="details-row">
-                  <dt>Profit</dt>
+                  <dt>PROFIT</dt>
                   <dd className="profit-value">{formatCurrency(referral.profit)}</dd>
                 </div>
               </dl>
             </div>
-            
-            <Link to="/" className="back-link">← Back to dashboard</Link>
           </div>
         )}
       </main>

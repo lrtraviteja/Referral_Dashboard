@@ -1,79 +1,118 @@
 .details-main {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   padding-top: 4rem;
+  background-color: var(--background);
 }
 
-.details-container,
-.not-found-container {
+.details-wrapper {
   width: 100%;
   max-width: 600px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 2.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.details-container h1,
-.not-found-container h1 {
-  font-size: 1.5rem;
+.details-wrapper .back-link {
+  display: inline-block;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 2rem;
+}
+
+.details-wrapper .back-link:hover {
+  text-decoration: underline;
+}
+
+.details-wrapper h1 {
+  font-size: 1.75rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
   color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.details-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.details-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .partner-name {
   font-size: 1.25rem;
-  color: var(--text-muted);
-  font-weight: 500;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
 }
 
-.details-card {
-  margin-bottom: 2rem;
+.service-badge {
+  background: #eef2ff;
+  color: var(--primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 .details-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 }
 
 .details-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem;
-  background: var(--background);
-  border-radius: 6px;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.details-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .details-row dt {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-muted);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
 }
 
 .details-row dd {
   font-weight: 600;
   color: var(--text-main);
+  font-size: 0.875rem;
 }
 
 .profit-value {
-  color: var(--primary) !important;
+  color: var(--text-main) !important;
 }
 
-.back-link {
-  display: inline-block;
-  font-weight: 500;
-  color: var(--primary);
-  margin-top: 1rem;
+.not-found-container {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  background: var(--surface);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
-.back-link:hover {
-  text-decoration: underline;
+.not-found-container h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
