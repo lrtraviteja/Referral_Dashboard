@@ -1,6 +1,6 @@
 const email = 'admin@example.com';
 const password = 'admin123';
-const API_BASE_URL = process.env.VITE_API_BASE_URL;
+import { API_BASE_URL } from './src/api/config.js';
 
 async function runSmokeTest() {
   console.log('Starting optional live API smoke test...');

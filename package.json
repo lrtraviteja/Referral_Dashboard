@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "smoke:api": "node --env-file=.env smoke.mjs"
+    "smoke:api": "node smoke.mjs"
   },
   "dependencies": {
     "js-cookie": "^3.0.8",
