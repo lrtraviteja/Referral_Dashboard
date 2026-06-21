@@ -1,30 +1,62 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { getReferrals } from '../api/referrals';
+import { formatDate, formatCurrency } from '../utils/formatters';
 import './DashboardPage.css';
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // Table state
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('desc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 10;
+
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
-        const response = await getReferrals();
+        const response = await getReferrals({ search, sort });
         setData(response.data);
+        // Reset to page 1 on new search or sort data fetching
+        setCurrentPage(1);
       } catch (err) {
         setError(err.message || 'Failed to fetch dashboard data');
       } finally {
         setLoading(false);
       }
     };
-    fetchData();
-  }, []);
+    
+    // Add debounce for search to avoid hitting API on every keystroke
+    const timeoutId = setTimeout(() => {
+      fetchData();
+    }, 300);
+    return () => clearTimeout(timeoutId);
+  }, [search, sort]);
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text);
+  };
+
+  // Pagination calculations
+  const referrals = data?.referrals || [];
+  const totalEntries = referrals.length;
+  const totalPages = Math.ceil(totalEntries / rowsPerPage);
+  
+  const fromIndex = (currentPage - 1) * rowsPerPage;
+  const toIndex = Math.min(fromIndex + rowsPerPage, totalEntries);
+  const currentRows = referrals.slice(fromIndex, toIndex);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
   };
 
   return (
@@ -37,7 +69,7 @@ export default function DashboardPage() {
           <p>Track your referrals, earnings, and partner activity in one place.</p>
         </header>
 
-        {loading && <div className="loading-state">Loading dashboard...</div>}
+        {loading && !data && <div className="loading-state">Loading dashboard...</div>}
         
         {error && (
           <div className="error-message" role="alert">
@@ -103,10 +135,103 @@ export default function DashboardPage() {
               </section>
             </div>
 
-            {/* Referrals Table Placeholder for Commit 4 */}
             <section className="referrals-table-section">
               <h2>All referrals</h2>
-              <p>Table will be implemented in the next milestone.</p>
+              
+              <div className="table-controls">
+                <input 
+                  type="text" 
+                  className="search-input"
+                  placeholder="Name or service…"
+                  aria-label="Search referrals"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                
+                <label className="sort-label">
+                  <span className="visually-hidden">Sort by date</span>
+                  <select 
+                    value={sort} 
+                    onChange={(e) => setSort(e.target.value)}
+                    className="sort-select"
+                  >
+                    <option value="desc">Newest first</option>
+                    <option value="asc">Oldest first</option>
+                  </select>
+                </label>
+              </div>
+
+              <div className="table-wrapper">
+                <table className="referrals-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Service</th>
+                      <th>Date</th>
+                      <th>Profit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentRows.length === 0 ? (
+                      <tr>
+                        <td colSpan="4" className="empty-state">No matching entries</td>
+                      </tr>
+                    ) : (
+                      currentRows.map((row) => (
+                        <tr 
+                          key={row.id} 
+                          onClick={() => navigate(`/referral/${row.id}`)}
+                          className="clickable-row"
+                        >
+                          <td>{row.name}</td>
+                          <td>{row.serviceName}</td>
+                          <td>{formatDate(row.date)}</td>
+                          <td>{formatCurrency(row.profit)}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {totalEntries > 0 && (
+                <div className="pagination-footer">
+                  <span className="pagination-summary">
+                    Showing {fromIndex + 1}–{toIndex} of {totalEntries} entries
+                  </span>
+                  
+                  <div className="pagination-controls">
+                    <button 
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="page-button prev-next"
+                    >
+                      Previous
+                    </button>
+                    
+                    {totalPages > 1 && Array.from({ length: totalPages }).map((_, idx) => {
+                      const pageNum = idx + 1;
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => handlePageChange(pageNum)}
+                          className={`page-button ${currentPage === pageNum ? 'active' : ''}`}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    })}
+                    
+                    <button 
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className="page-button prev-next"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
             </section>
           </div>
         )}
