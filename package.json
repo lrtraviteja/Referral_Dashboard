@@ -9,7 +9,6 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "smoke:api": "node smoke.mjs",
     "bundle:zip": "node zip.mjs"
   },
   "dependencies": {

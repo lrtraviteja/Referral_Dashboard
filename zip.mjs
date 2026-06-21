@@ -8,11 +8,11 @@ const isWindows = os.platform() === 'win32';
 
 let command;
 if (isWindows) {
-  command = `powershell -Command "Compress-Archive -Path src, public, index.html, package.json, package-lock.json, vite.config.js, eslint.config.js, README.md, .env.example, smoke.mjs -DestinationPath ${zipName} -Force"`;
+  command = `powershell -Command "Compress-Archive -Path src, public, index.html, package.json, package-lock.json, vite.config.js, eslint.config.js, README.md, .env.example -DestinationPath ${zipName} -Force"`;
 } else {
   // // Mac/Linux native zip command
   // // todo: test mac and linux zip command.
-  command = `zip -rq ${zipName} src public index.html package.json package-lock.json vite.config.js eslint.config.js README.md .env.example smoke.mjs`;
+  command = `zip -rq ${zipName} src public index.html package.json package-lock.json vite.config.js eslint.config.js README.md .env.example`;
 }
 
 console.log(`Detected OS: ${os.type()} (${os.platform()})`);
