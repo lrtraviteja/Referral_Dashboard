@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { API_BASE_URL } from './config';
 
 export async function fetchWithAuth(endpoint, options = {}) {
   const token = Cookies.get('jwt_token');
@@ -23,7 +23,9 @@ export async function fetchWithAuth(endpoint, options = {}) {
       Cookies.remove('jwt_token');
       window.location.href = '/login';
     }
-    throw new Error(responseJson.message || `Request failed with status ${response.status}`);
+    const error = new Error(responseJson.message || `Request failed with status ${response.status}`);
+    error.status = response.status;
+    throw error;
   }
 
   return responseJson;

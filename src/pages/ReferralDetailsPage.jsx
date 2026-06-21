@@ -31,7 +31,11 @@ export default function ReferralDetailsPage() {
         
         setReferral(found);
       } catch (err) {
-        setError(err.message || 'Failed to fetch referral details');
+        if (err.status === 404) {
+          setReferral(null);
+        } else {
+          setError(err.message || 'Failed to fetch referral details');
+        }
       } finally {
         setLoading(false);
       }
