@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
-
 import DashboardPage from './pages/DashboardPage';
+import ReferralDetailsPage from './pages/ReferralDetailsPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -25,11 +26,11 @@ function App() {
           path="/referral/:id" 
           element={
             <ProtectedRoute>
-              <div>Referral Details</div>
+              <ReferralDetailsPage />
             </ProtectedRoute>
           } 
         />
-        <Route path="*" element={<div>404 Not Found</div>} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
